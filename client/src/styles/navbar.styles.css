@@ -1,0 +1,19 @@
+.inactive {
+    display: inline-block;
+    width: 50px;
+    padding: 12px;
+    margin: '0 6px 6px';
+    text-decoration: none;
+    color: white;
+    background: blue;
+}
+
+.active {
+    display: inline-block;
+    width: 50px;
+    padding: 12px;
+    margin: '0 6px 6px';
+    text-decoration: none;
+    color: white;
+    background: darkblue;
+}

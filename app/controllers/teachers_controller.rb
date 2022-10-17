@@ -6,5 +6,6 @@ class TeachersController < ApplicationController
 
     def create
         teacher = User.create( first_name: params[ :first_name ], last_name: params[ :last_name ], email: params[ :email ], role: 'teacher', password: params[ :password ], password_confirmation: params[ :password_confirmation ] );
+        render json: teacher
     end
 end
