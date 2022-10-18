@@ -17,7 +17,7 @@ function App() {
   const [ courses, setCourses ] = useState([]);
   const [ enrollments, setEnrollments ]  = useState([]);
   const [ user, setUser ] = useState( null );
-  const [ errorMessage, setErrorMessage ] = useState('');
+  const [ loginErrorMessage, setLoginErrorMessage ] = useState('');
 
   const semestersUrl = '/semesters';
   const studentsUrl = '/students';
@@ -25,7 +25,9 @@ function App() {
   const coursesUrl = '/courses';
   const enrollmentsUrl = '/enrollments';
   const loginUrl = '/login';
+  const logoutUrl = '/logout';
   const sessionUrl = '/me';
+
 
   useEffect( fetchSemesters, [] );
   useEffect( fetchStudents, [] );
@@ -65,8 +67,8 @@ function App() {
       const data = await response.json();
       setDataFunction(data);
     } else {
-      const error = await response.text();
-      setErrorMessage(error);
+      const error = response.error;
+      setLoginErrorMessage(error);
     }
   }
 
@@ -95,11 +97,12 @@ function App() {
     if ( response.ok ) {
       const user = await response.json();
       setUser( user );
-      navigate( "/", { user : user, error : errorMessage } );
+      setLoginErrorMessage('');
+      navigate( "/", { user: user, error: loginErrorMessage, handleLogout: handleLogout } );
     }
     else {
-      const error = await response.text();
-      setErrorMessage( error );
+      const error = response.error;
+      setLoginErrorMessage( error );
     }
   }
 
@@ -125,7 +128,7 @@ function App() {
       setDataFunction( [ ...dataSet, data ] );
     } else {
       const error = await response.text();
-      setErrorMessage(error);
+      setLoginErrorMessage(error);
     }
   }
 
@@ -140,11 +143,20 @@ function App() {
     return await fetch( url, settings );
   }
 
+  async function handleLogout() {
+    const settings = {
+      method: "DELETE"
+    }
+
+    const response = await fetch( logoutUrl, settings );
+    setUser(null);
+  }
+
   return (
     <div>
       <NavBar/>
       <Routes>
-        <Route path='/' element = { <Home user = { user } error = { errorMessage } /> }/>
+        <Route path='/' element = { <Home user = { user } error = { loginErrorMessage } handleLogout = { handleLogout } /> }/>
         <Route path='/login' element = { <Login credentialsCreated = { onCredentialsCreated } /> }/>
         <Route path='/enrollment' element = { <Enrollment enrollments = { enrollments } students = { students } courses = { courses } enrollmentAdded = { onEnrollmentAdded } deleteEnrollment = { handleEnrollmentDelete } updateEnrollment = { handleEnrollmentUpdate }/> }/>
         <Route path='/semester' element = { <Semester semesters = { semesters } semesterAdded = { onSemesterAdded } /> }/>

@@ -11,4 +11,5 @@ Rails.application.routes.draw do
   resources :enrollments, only: [ :index, :create, :destroy, :update ]
   post '/login', to: "sessions#create"
   get '/me', to: 'users#show'
+  delete "/logout", to: "sessions#destroy"
 end
