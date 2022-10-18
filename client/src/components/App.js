@@ -24,7 +24,6 @@ function App() {
   const teachersUrl = '/teachers';
   const coursesUrl = '/courses';
   const enrollmentsUrl = '/enrollments';
-  const loginUrl = '/login';
   const logoutUrl = '/logout';
   const sessionUrl = '/me';
 
@@ -92,17 +91,10 @@ function App() {
     updateDataset ( "POST",enrollmentsUrl, enrollment, enrollments, setEnrollments );
   }
 
-  async function onCredentialsCreated( credentials ) {
-    const response = await updateData ( "POST", loginUrl, credentials );
-    if ( response.ok ) {
-      const user = await response.json();
+  async function onCredentialsCreated( user ) {
+    if ( user ) {
       setUser( user );
-      setLoginErrorMessage('');
       navigate( "/", { user: user, error: loginErrorMessage, handleLogout: handleLogout } );
-    }
-    else {
-      const error = response.error;
-      setLoginErrorMessage( error );
     }
   }
 
@@ -127,12 +119,12 @@ function App() {
       const data = await response.json();
       setDataFunction( [ ...dataSet, data ] );
     } else {
-      const error = await response.text();
-      setLoginErrorMessage(error);
+      const data = await response.json();
+      setLoginErrorMessage(data.error);
     }
   }
 
-  async function updateData(action, url, data, dataSet, setDataFunction) {
+  async function updateData(action, url, data) {
     const stringData = JSON.stringify(data);
     const settings = {
       method: action,
@@ -148,7 +140,7 @@ function App() {
       method: "DELETE"
     }
 
-    const response = await fetch( logoutUrl, settings );
+    await fetch( logoutUrl, settings );
     setUser(null);
   }
 
