@@ -75,24 +75,24 @@ function App() {
     }
   }
 
-  function onSemesterAdded(semester) {
-    updateDataset ( "POST", semestersUrl, semester, semesters, setSemesters );
+  async function onSemesterAdded(semester) {
+    await updateDataset ( "POST", semestersUrl, semester, semesters, setSemesters );
   }
 
-  function onStudentAdded( student ) {
-    updateDataset ( "POST", studentsUrl, student, students, setStudents );
+  async function onStudentAdded( student ) {
+    await updateDataset ( "POST", studentsUrl, student, students, setStudents );
   }
 
-  function onTeacherAdded( teacher ) {
-    updateDataset ( "POST", teachersUrl, teacher, teachers, setTeachers );
+  async function onTeacherAdded( teacher ) {
+    await updateDataset ( "POST", teachersUrl, teacher, teachers, setTeachers );
   }
 
-  function onCourseAdded( course ) {
-    updateDataset ( "POST", coursesUrl, course, courses, setCourses );
+  async function onCourseAdded( course ) {
+    await updateDataset ( "POST", coursesUrl, course, courses, setCourses );
   }
 
-  function onEnrollmentAdded( enrollment ) {
-    updateDataset ( "POST", enrollmentsUrl, enrollment, enrollments, setEnrollments );
+  async function onEnrollmentAdded( enrollment ) {
+    await updateDataset ( "POST", enrollmentsUrl, enrollment, enrollments, setEnrollments );
   }
 
   async function onCredentialsCreated( credentials ) {
@@ -101,26 +101,32 @@ function App() {
     if ( response.ok ) {
       setUser( data );
       setErrors( [] );
-      navigate( "/", { user: user, error: errors, handleLogout: handleLogout } );
+      navigate( "/", { user: user, errors: errors, handleLogout: handleLogout } );
     } else {
       setUser( null );
       setErrors( data.errors );
     }
   }
 
-  function handleEnrollmentDelete( enrollmentToDelete ) {
+  async function handleEnrollmentDelete( enrollmentToDelete ) {
     const deleteUrl = `${enrollmentsUrl}/${enrollmentToDelete.id}`;
-    fetch(deleteUrl, { method: "DELETE" })
-      .then( response => response.json() )
+    const settings = { method: "DELETE" };
+    const response = await fetch(deleteUrl, settings )
 
-    const updatedEnrollments = enrollments.filter( enrollment => enrollment.id !== enrollmentToDelete.id );
-    setEnrollments( updatedEnrollments );
+    if ( response.ok ) {
+      const updatedEnrollments = enrollments.filter( enrollment => enrollment.id !== enrollmentToDelete.id );
+      setEnrollments( updatedEnrollments );
+      setErrors( [] );
+    } else {
+      const data = await response.json();
+      setErrors( data.errors );
+    }
   }
 
-  function handleEnrollmentUpdate( enrollment ) {
+  async function handleEnrollmentUpdate( enrollment ) {
     const updateUrl = `${enrollmentsUrl}/${enrollment.id}`;
     const data = { score: enrollment.score };
-    updateDataset( "PATCH", updateUrl, data, enrollments, setEnrollments );
+    await updateDataset( "PATCH", updateUrl, data, enrollments, setEnrollments );
   }
 
   async function updateDataset(action, url, data, dataSet, setDataFunction) {
@@ -150,15 +156,21 @@ function App() {
       method: "DELETE"
     }
 
-    await fetch( logoutUrl, settings );
-    setUser( null );
+    const response = await fetch( logoutUrl, settings );
+    if ( response.ok ) {
+      setUser( null );
+      setErrors( [] );
+    } else {
+      const data = await response.json();
+      setErrors( data.errors );
+    }
   }
 
   return (
     <div>
       <NavBar/>
       <Routes>
-        <Route path='/' element = { <Home user = { user } error = { errors } handleLogout = { handleLogout } /> }/>
+        <Route path='/' element = { <Home user = { user } errors = { errors } handleLogout = { handleLogout } /> }/>
         <Route path='/login' element = { <Login credentialsCreated = { onCredentialsCreated } errors = { errors } /> }/>
         <Route path='/enrollment' element = { <Enrollment enrollments = { enrollments } students = { students } courses = { courses } enrollmentAdded = { onEnrollmentAdded } deleteEnrollment = { handleEnrollmentDelete } updateEnrollment = { handleEnrollmentUpdate } errors = { errors } /> }/>
         <Route path='/semester' element = { <Semester semesters = { semesters } semesterAdded = { onSemesterAdded } errors = { errors } /> }/>
