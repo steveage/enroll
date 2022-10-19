@@ -1,7 +1,9 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import SemesterCard from './SemesterCard';
+import { SemesterContext } from './App';
 
-function Semester( { semesters, semesterAdded, errors } ) {
+function Semester( { semesters, semesterAdded } ) {
+    const semesterErrors = useContext( SemesterContext );
     const formObject = {
         year: 2022,
         period: 'summer'
@@ -21,7 +23,7 @@ function Semester( { semesters, semesterAdded, errors } ) {
     const semesterListUi = semesters.map( semester => <li key = {semester.id}
     ><SemesterCard key = { semester.id } semester = { semester } /></li>)
 
-    const errorListUi = errors?.map( error => <p key = { error } >{ error }</p>)
+    const errorListUi = semesterErrors?.map( error => <p key = { error } >{ error }</p>)
 
     function periodOptionsUi() {
         return [ 

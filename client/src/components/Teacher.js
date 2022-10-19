@@ -1,7 +1,9 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import TeacherCard from './TeacherCard';
+import { TeacherContext } from './App';
 
-function Teacher( { teachers, teacherAdded, errors } ) {
+function Teacher( { teachers, teacherAdded } ) {
+    const teacherErrors = useContext( TeacherContext );
     const emptyTeacher = {
         first_name: '',
         last_name: '',
@@ -24,7 +26,7 @@ function Teacher( { teachers, teacherAdded, errors } ) {
     
     const teacherListUi = teachers.map( teacher => <li key = { teacher.id } ><TeacherCard key = { teacher.id } teacher = { teacher } /></li>);
 
-    const errorListUi = errors?.map( error => <p key = { error } >{ error }</p>)
+    const errorListUi = teacherErrors?.map( error => <p key = { error } >{ error }</p>)
 
     return (
         <div>

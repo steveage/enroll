@@ -1,7 +1,9 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import CourseCard from './CourseCard';
+import { CourseContext } from './App';
 
-function Course( { courses, semesters, teachers, courseAdded, errors } ) {
+function Course( { courses, semesters, teachers, courseAdded } ) {
+    const courseErrors = useContext( CourseContext );
     const emptyCourse = {
         code: '',
         name: '',
@@ -24,7 +26,7 @@ function Course( { courses, semesters, teachers, courseAdded, errors } ) {
 
     const courseListUi = courses.map( course => <li key = { course.id }><CourseCard key = { course.id } course = { course } /></li>);
 
-    const errorListUi = errors?.map( error => <p key = { error } >{ error }</p>)
+    const errorListUi = courseErrors?.map( error => <p key = { error } >{ error }</p>)
 
     const semesterOptionsUi = semesters.map( semester => <option key = { semester.id } value = { semester.id }>{semester.year} - {semester.period}</option>)
 

@@ -1,6 +1,8 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { UserContext } from "./App";
 
-function Login( { credentialsCreated, errors } ) {
+function Login( { credentialsCreated } ) {
+    const userErrors = useContext( UserContext );
     const emptyCredentials = {
         email: '',
         password: ''
@@ -13,7 +15,7 @@ function Login( { credentialsCreated, errors } ) {
         setCredentials( emptyCredentials );
     }
 
-    const errorListUi = errors?.map( error => <p key = { error } >{ error }</p>)
+    const errorListUi = userErrors?.map( error => <p key = { error } >{ error }</p>)
 
     function handleInputChange( event ) {
         setCredentials ( { ...credentials, [ event.target.name ]: event.target.value } );

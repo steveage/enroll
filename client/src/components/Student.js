@@ -1,7 +1,9 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import StudentCard from './StudentCard';
+import { StudentContext } from './App';
 
-function Student( { students, studentAdded, errors } ) {
+function Student( { students, studentAdded } ) {
+    const studentErrors = useContext( StudentContext );
     const formObject = {
         first_name: '',
         last_name: '',
@@ -24,7 +26,7 @@ function Student( { students, studentAdded, errors } ) {
 
     const studentListUi = students.map( student => <li key = { student.id }><StudentCard key = { student.id } student = { student } /></li>);
 
-    const errorListUi = errors?.map( error => <p key = { error } >{ error }</p>)
+    const errorListUi = studentErrors?.map( error => <p key = { error } >{ error }</p>)
 
     return (
         <div>

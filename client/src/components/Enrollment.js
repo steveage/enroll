@@ -1,7 +1,9 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import EnrollmentCard from './EnrollmentCard';
+import { EnrollmentContext } from './App';
 
-function Enrollment( { enrollments, students, courses, enrollmentAdded, deleteEnrollment, updateEnrollment, errors } ) {
+function Enrollment( { enrollments, students, courses, enrollmentAdded, deleteEnrollment, updateEnrollment } ) {
+    const enrollmentErrors = useContext( EnrollmentContext );
     const emptyEnrollment = {
         user_id: 0,
         course_id: 0,
@@ -25,7 +27,7 @@ function Enrollment( { enrollments, students, courses, enrollmentAdded, deleteEn
 
     const coursesOptionsUi = courses.map( course => <option key = { course.id } value = { course.id }>{ course.code } - { course.section }: { course.name }</option>)
 
-    const errorListUi = errors?.map( error => <p key = { error } >{ error }</p>)
+    const errorListUi = enrollmentErrors?.map( error => <p key = { error } >{ error }</p>)
 
     return (
         <div>
