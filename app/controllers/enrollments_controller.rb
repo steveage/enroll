@@ -1,11 +1,11 @@
-class EnrollmentsController < ApplicationController
+class EnrollmentsController < PreliminaryController
     def index
         enrollments = Enrollment.all
         render json: enrollments
     end
 
     def create
-        enrollment = Enrollment.create(  user_id: params[ :user_id ], course_id: params[ :course_id ], score: params[ :score ] )
+        enrollment = Enrollment.create!(  user_id: params[ :user_id ], course_id: params[ :course_id ], score: params[ :score ] )
         render json: enrollment, status: :created
     end
 
@@ -27,5 +27,10 @@ class EnrollmentsController < ApplicationController
         else
             render json: { errors: [ "Enrollment not found." ] }, status: :not_found
         end
+    end
+
+    private
+    def authorize
+         return render json: { errors: ["Not authorized"] }, status: :unauthorized unless session.include? :user_id and session[ :role ] == "student"
     end
 end

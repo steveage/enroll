@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import SemesterCard from './SemesterCard';
 
-function Semester( { semesters, semesterAdded } ) {
+function Semester( { semesters, semesterAdded, errors } ) {
     const formObject = {
         year: 2022,
         period: 'summer'
@@ -20,6 +20,8 @@ function Semester( { semesters, semesterAdded } ) {
 
     const semesterListUi = semesters.map( semester => <li key = {semester.id}
     ><SemesterCard key = { semester.id } semester = { semester } /></li>)
+
+    const errorListUi = errors?.map( error => <p key = { error } >{ error }</p>)
 
     function periodOptionsUi() {
         return [ 
@@ -44,6 +46,7 @@ function Semester( { semesters, semesterAdded } ) {
                 </label>
                 <button type = { 'submit' }>Add Semester</button>
             </form>
+            <div>{ errorListUi } </div>
             <h3>School's semesters:</h3>
             <ul> { semesterListUi } </ul>
         </div>

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import EnrollmentCard from './EnrollmentCard';
 
-function Enrollment( { enrollments, students, courses, enrollmentAdded, deleteEnrollment, updateEnrollment } ) {
+function Enrollment( { enrollments, students, courses, enrollmentAdded, deleteEnrollment, updateEnrollment, errors } ) {
     const emptyEnrollment = {
         user_id: 0,
         course_id: 0,
@@ -25,6 +25,8 @@ function Enrollment( { enrollments, students, courses, enrollmentAdded, deleteEn
 
     const coursesOptionsUi = courses.map( course => <option key = { course.id } value = { course.id }>{ course.code } - { course.section }: { course.name }</option>)
 
+    const errorListUi = errors?.map( error => <p key = { error } >{ error }</p>)
+
     return (
         <div>
             <form onSubmit = { handleSubmit }>
@@ -46,6 +48,7 @@ function Enrollment( { enrollments, students, courses, enrollmentAdded, deleteEn
                 </label>
                 <button type= { 'submit' }>Enroll</button>
             </form>
+            <div>{ errorListUi }</div>
             <h3>Enrollments:</h3>
             <ul> { enrollmentsListUi } </ul>
         </div>

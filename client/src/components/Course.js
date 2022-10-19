@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import CourseCard from './CourseCard';
 
-function Course( { courses, semesters, teachers, courseAdded } ) {
+function Course( { courses, semesters, teachers, courseAdded, errors } ) {
     const emptyCourse = {
         code: '',
         name: '',
@@ -23,6 +23,8 @@ function Course( { courses, semesters, teachers, courseAdded } ) {
     }
 
     const courseListUi = courses.map( course => <li key = { course.id }><CourseCard key = { course.id } course = { course } /></li>);
+
+    const errorListUi = errors?.map( error => <p key = { error } >{ error }</p>)
 
     const semesterOptionsUi = semesters.map( semester => <option key = { semester.id } value = { semester.id }>{semester.year} - {semester.period}</option>)
 
@@ -57,6 +59,7 @@ function Course( { courses, semesters, teachers, courseAdded } ) {
                 </label>
                 <button type = { 'submit' }>Add course</button>
             </form>
+            <div>{ errorListUi }</div>
             <h3>School's courses:</h3>
             <ul> { courseListUi } </ul>
         </div>

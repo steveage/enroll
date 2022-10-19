@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import StudentCard from './StudentCard';
 
-function Student( { students, studentAdded } ) {
+function Student( { students, studentAdded, errors } ) {
     const formObject = {
         first_name: '',
         last_name: '',
@@ -23,6 +23,8 @@ function Student( { students, studentAdded } ) {
     }
 
     const studentListUi = students.map( student => <li key = { student.id }><StudentCard key = { student.id } student = { student } /></li>);
+
+    const errorListUi = errors?.map( error => <p key = { error } >{ error }</p>)
 
     return (
         <div>
@@ -49,6 +51,7 @@ function Student( { students, studentAdded } ) {
                 </label>
                 <button type = { 'submit' }>Add Student</button>
             </form>
+            <div>{ errorListUi }</div>             
             <h3>School's Students:</h3>
             <ul> { studentListUi } </ul>
         </div>

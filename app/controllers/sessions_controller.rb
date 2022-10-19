@@ -7,13 +7,14 @@ class SessionsController < ApplicationController
       session[ :role ] = user.role;
       render json: user, status: :ok
     else
-      render json: { error: "Check your credentials and try again." }, status: :unauthorized
+      render json: { errors: ["Check your credentials and try again."] }, status: :unauthorized
     end
 
   end
 
   def destroy
     session.delete :user_id
+    session.delete :role
     head :no_content
   end
 end
