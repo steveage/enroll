@@ -5,6 +5,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Alert from 'react-bootstrap/Alert';
 import Accordion from 'react-bootstrap/Accordion';
+import { IoSchoolSharp } from 'react-icons/io5';
 
 function Student( { students, studentAdded } ) {
     const studentErrors = useContext( StudentContext );
@@ -63,7 +64,7 @@ function Student( { students, studentAdded } ) {
                     Submit
                 </Button>
             </Form>
-            <h3>School's Students:</h3>
+            <h3><IoSchoolSharp/> School's Students:</h3>
             <Accordion defaultActiveKey='0'>
                 <div> { studentListUi } </div>
             </Accordion>

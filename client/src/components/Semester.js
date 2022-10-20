@@ -4,6 +4,7 @@ import { SemesterContext } from './App';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Alert from 'react-bootstrap/Alert';
+import { IoCalendarOutline } from 'react-icons/io5';
 
 function Semester( { semesters, semesterAdded } ) {
     const semesterErrors = useContext( SemesterContext );
@@ -52,11 +53,11 @@ function Semester( { semesters, semesterAdded } ) {
                     </Form.Select>
                 </Form.Group>
                 <div>{ errorListUi } </div>
-                <Button variant='primary' type='submit'>
+                <Button variant='primary' type='submit' className='mb-4'>
                     Submit
                 </Button>
             </Form>
-            <h3>School's semesters:</h3>
+            <h3><IoCalendarOutline/> School's semesters:</h3>
             <div> { semesterListUi } </div>
         </div>
     )

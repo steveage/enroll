@@ -5,6 +5,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Alert from 'react-bootstrap/Alert';
 import Accordion from 'react-bootstrap/Accordion';
+import { FaChalkboardTeacher } from 'react-icons/fa';
 
 function Teacher( { teachers, teacherAdded } ) {
     const teacherErrors = useContext( TeacherContext );
@@ -63,7 +64,7 @@ function Teacher( { teachers, teacherAdded } ) {
                     Submit
                 </Button>
             </Form>
-            <h3>School's Teachers</h3>
+            <h3><FaChalkboardTeacher/> School's Teachers</h3>
             <Accordion defaultActiveKey='0'>
                 { teacherListUi }
             </Accordion>

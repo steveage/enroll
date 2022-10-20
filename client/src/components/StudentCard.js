@@ -1,7 +1,6 @@
 import Accordion from 'react-bootstrap/Accordion';
 import Card from 'react-bootstrap/Card';
 import { FaChalkboardTeacher } from 'react-icons/fa';
-import { IoSchoolSharp } from 'react-icons/io5';
 import { AiOutlineMail } from 'react-icons/ai';
 
 function StudentCard( { student, index } ) {
@@ -20,7 +19,7 @@ function StudentCard( { student, index } ) {
     return (
             <Accordion.Item eventKey = { index }>
                 <Accordion.Header>
-                    <h4><IoSchoolSharp/> {`${ student.first_name } ${ student.last_name }`}</h4>
+                    <h4>{`${ student.first_name } ${ student.last_name }`}</h4>
                 </Accordion.Header>
                 <Accordion.Body>
                     <p style = { { 'fontStyle': 'italic' } } ><AiOutlineMail/> { student.email } </p>
