@@ -181,7 +181,7 @@ function App() {
 
   return (
     <div>
-      <NavBar/>
+      <NavBar user = { user }/>
       <Routes>
         <Route path='/' element = {
           <HomeContext.Provider value = { homeErrors }>

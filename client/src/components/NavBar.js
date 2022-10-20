@@ -1,19 +1,32 @@
-import { NavLink } from 'react-router-dom';
-import styles from './../styles/navbar.styles.css';
+import Container from 'react-bootstrap/Container';
+import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
 
-function NavBar() {
-    let linkStyle = isActive => isActive? 'active' : 'inactive';
-    
+function NavBar({ user }) {
+    const signInUi = user==null ? <div>Signed out</div> : <div>Signed in as: <a href="login">{ user.first_name } { user.last_name }</a></div>;
     return (
-        <div>
-            < NavLink to = '/' className = { ({isActive}) => linkStyle(isActive) }>Home</NavLink>
-            < NavLink to = '/course' className = { ({isActive}) => linkStyle(isActive) }>Course</NavLink>
-            < NavLink to = '/enrollment' className = { ({isActive}) => linkStyle(isActive) }>Enrollment</NavLink>
-            < NavLink to = '/Login' className = { ({isActive}) => linkStyle(isActive) }>Login</NavLink>
-            < NavLink to = '/Semester' className = { ({isActive}) => linkStyle(isActive) }>Semester</NavLink>
-            < NavLink to = '/Teacher' className = { ({isActive}) => linkStyle(isActive) }>Teacher</NavLink>
-            < NavLink to = '/Student' className = { ({isActive}) => linkStyle(isActive) }>Student</NavLink>
-        </div>
+        <Navbar bg = 'light' variant='light' expand = 'lg'>
+            <Container>
+                <Navbar.Brand href='/'>Enrollment-App</Navbar.Brand>
+                <Navbar.Toggle aria-controls='basic-navbar-nav'/>
+                <Navbar.Collapse id = 'basic-navbar-nav' className='justify-content-start'>
+                    <Nav className='me-auto'>
+                        <Nav.Link href='/'>Home</Nav.Link>
+                        <Nav.Link href='Login'>Login</Nav.Link>
+                        <Nav.Link href='course'>Course</Nav.Link>
+                        <Nav.Link href='enrollment'>Enrollment</Nav.Link>
+                        <Nav.Link href='semester'>Semester</Nav.Link>
+                        <Nav.Link href='teacher'>Teacher</Nav.Link>
+                        <Nav.Link href='student'>Student</Nav.Link>                        
+                    </Nav>
+                </Navbar.Collapse>
+                <Navbar.Collapse className='justify-content-end'>
+                    <Navbar.Text>
+                        { signInUi }
+                    </Navbar.Text>
+                </Navbar.Collapse>
+            </Container>
+        </Navbar>
     )
 }
 
