@@ -1,5 +1,8 @@
 import { useState, useContext } from "react";
 import { UserContext } from "./App";
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import Alert from 'react-bootstrap/Alert';
 
 function Login( { credentialsCreated } ) {
     const userErrors = useContext( UserContext );
@@ -15,7 +18,7 @@ function Login( { credentialsCreated } ) {
         setCredentials( emptyCredentials );
     }
 
-    const errorListUi = userErrors?.map( error => <p key = { error } >{ error }</p>)
+    const errorListUi = userErrors?.map( error => <Alert variant="danger" key = { error } >{ error }</Alert>);
 
     function handleInputChange( event ) {
         setCredentials ( { ...credentials, [ event.target.name ]: event.target.value } );
@@ -23,13 +26,21 @@ function Login( { credentialsCreated } ) {
 
     return (
         <div>
+            <Form onSubmit={handleSubmit}>
+                <Form.Group className="mb-3" controlId="formBasicEmail">
+                    <Form.Label>Email address</Form.Label>
+                    <Form.Control name="email" value = {credentials.email} onChange = {handleInputChange} type={'email'} placeholder = 'Enter email address' />
+                </Form.Group>
 
-            <form onSubmit = { handleSubmit }>
-                <input name = 'email' type = 'text' onChange = { handleInputChange } value = { credentials.email }></input>
-                <input name = 'password' type = 'password' onChange = { handleInputChange } value = { credentials.password }></input>
-                <input type = 'submit' ></input>
-            </form>
-            <p>{ errorListUi }</p>
+                <Form.Group className="mb-3" controlId="formBasicPassword">
+                    <Form.Label>Password</Form.Label>
+                    <Form.Control name = "password" value={credentials.password} onChange = { handleInputChange } type = {'password'} placeholder = 'Enter password' />
+                </Form.Group>
+                <Button className="mb-4" variant = 'primary' type="submit">
+                    Submit
+                </Button>
+            </Form>
+            { errorListUi }
         </div>
     )
 }

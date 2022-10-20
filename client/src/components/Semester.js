@@ -1,6 +1,9 @@
 import { useContext, useState } from 'react';
 import SemesterCard from './SemesterCard';
 import { SemesterContext } from './App';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import Alert from 'react-bootstrap/Alert';
 
 function Semester( { semesters, semesterAdded } ) {
     const semesterErrors = useContext( SemesterContext );
@@ -20,10 +23,8 @@ function Semester( { semesters, semesterAdded } ) {
         setFormData( { ...formData, [ event.target.name ]: event.target.value } );
     }
 
-    const semesterListUi = semesters.map( semester => <li key = {semester.id}
-    ><SemesterCard key = { semester.id } semester = { semester } /></li>)
-
-    const errorListUi = semesterErrors?.map( error => <p key = { error } >{ error }</p>)
+    const semesterListUi = semesters.map( semester => <SemesterCard key = { semester.id } semester = { semester } />);
+    const errorListUi = semesterErrors?.map( error => <Alert variant = 'danger' key = { error } >{ error }</Alert>);
 
     function periodOptionsUi() {
         return [ 
@@ -35,22 +36,28 @@ function Semester( { semesters, semesterAdded } ) {
 
     return (
         <div>
-            <form onSubmit = { handleSubmit }>
-                <label>
-                    Year:
-                    <input type = { 'number' } name = 'year' value = { formData.year } onChange = { handleChange } />
-                </label>
-                <label>
-                    Period:
-                    <select name = 'period' value = { formData.period } onChange = { handleChange }>
-                    { periodOptionsUi() }
-                    </select>
-                </label>
-                <button type = { 'submit' }>Add Semester</button>
-            </form>
-            <div>{ errorListUi } </div>
+            <Form onSubmit={handleSubmit}>
+                <Form.Group className='mb-3' controlId='formBasicYear'>
+                    <Form.Label>Year</Form.Label>
+                    <Form.Control name='year' type='number' placeholder='Enter year' value = { formData.year } onChange = { handleChange } />
+                    <Form.Text className='text-muted'>
+                        Please enter current or next year only.
+                    </Form.Text>
+                </Form.Group>
+
+                <Form.Group className='mb-3' controlId='formBasicSemester'>
+                    <Form.Label>Semester</Form.Label>
+                    <Form.Select name = 'period' value = { formData.period } onChange = { handleChange }>
+                        { periodOptionsUi() }
+                    </Form.Select>
+                </Form.Group>
+                <div>{ errorListUi } </div>
+                <Button variant='primary' type='submit'>
+                    Submit
+                </Button>
+            </Form>
             <h3>School's semesters:</h3>
-            <ul> { semesterListUi } </ul>
+            <div> { semesterListUi } </div>
         </div>
     )
 }
