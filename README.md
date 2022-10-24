@@ -325,3 +325,5 @@ For additional support, check out these guides on Heroku:
 [postgres downloads page]: https://postgresapp.com/downloads.html
 [heroku rails deploying guide]: https://devcenter.heroku.com/articles/getting-started-with-rails6
 [troubleshooting guide on heroku]: https://devcenter.heroku.com/articles/getting-started-with-rails6#troubleshooting
+
+Before adding postgresql to the projet, run sudo yum install postgresql-devel. Pg would not install without it for me.
