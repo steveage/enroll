@@ -42,7 +42,7 @@ function Semester( { semesters, semesterAdded } ) {
                     <Form.Label>Year</Form.Label>
                     <Form.Control name='year' type='number' placeholder='Enter year' value = { formData.year } onChange = { handleChange } />
                     <Form.Text className='text-muted'>
-                        Please enter current or next year only.
+                        Please enter current or upcomming year only.
                     </Form.Text>
                 </Form.Group>
 
