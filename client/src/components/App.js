@@ -185,7 +185,7 @@ function App() {
       <Routes>
         <Route path='/' element = {
           <HomeContext.Provider value = { homeErrors }>
-            <Home user = { user } handleLogout = { handleLogout } /> 
+            <Home user = { user } courses = { courses } handleLogout = { handleLogout } /> 
           </HomeContext.Provider> } />
         <Route path='/login' element = {
           <UserContext.Provider value = { userErrors }>
